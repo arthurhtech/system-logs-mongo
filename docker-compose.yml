@@ -1,0 +1,46 @@
+#ok i pull up hop out after the party.
+version: '3.8'
+ 
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    # Mapeamento de portas (Host:Container)
+    ports:
+      - "27017:27017"
+    # Variáveis de Ambiente para autenticação
+    environment:
+      # Usuário e Senha para o banco de dados 'admin'
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      # Nome do banco de dados principal (opcional, mas bom para logs)
+      MONGO_INITDB_DATABASE: logs_db
+    # Configuração de Volume para Persistência de Dados
+    # Garante que os dados (logs, índices) não serão perdidos
+    # se o container for parado/recriado.
+    volumes:
+      - mongo_data:/data/db
+      # Mapeamento para scripts de inicialização (como init-indexes.js)
+      # O MongoDB executa scripts .js colocados em /docker-entrypoint-initdb.d/
+      - ./scripts:/docker-entrypoint-initdb.d/
+    # Reinicia se falhar, garantindo alta disponibilidade básica
+    restart: unless-stopped
+  
+    # Interface Visual para o Banco (Para a Apresentação)
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    ports:
+      - "8001:8081" # Acesso via Host na porta 8001 (mapeada para 8081 do container)
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017/?authSource=admin #.env
+    depends_on:
+      - mongodb
+
+# Definição do Volume Persistente
+volumes:
+  mongo_data:
+    driver: local
