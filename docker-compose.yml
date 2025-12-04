@@ -1,6 +1,5 @@
 #ok i pull up hop out after the party.
-version: '3.8'
- 
+
 services:
   mongodb:
     image: mongo:latest
