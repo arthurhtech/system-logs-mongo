@@ -4,6 +4,8 @@
   "description": "sistema de API REST para centralização de logs de sistemas distribuídos.",
   "main": "index.js",
   "scripts": {
+    "restore": "node scripts/restore.js",
+    "dump": "node scripts/dump.js",
     "dev": "nodemon src/server.js",
     "start": "node src/server.js"
   },
