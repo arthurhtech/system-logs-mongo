@@ -12,7 +12,7 @@ const CAMINHO = path.join(PASTA, NOME_ARQUIVO);
 function restore() {
     try {
         if (!fs.existsSync(CAMINHO)) {
-            throw new Error(`Arquivo não encontrado: ${CAMINHO_ARQUIVO}\nVerifique se o nome está correto na variável ARQUIVO_ALVO.`);
+            return console.log(`Arquivo não encontrado: ${CAMINHO}\nVerifique o diretório e nome do arquivo.`);
         }
 
         const dadosBackup = fs.readFileSync(CAMINHO);
