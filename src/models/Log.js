@@ -37,7 +37,8 @@ const LogSchema = new mongoose.Schema({
   }
 }, {
   // Configurações extras do Mongoose
-  timestamps: true // Cria createdAt e updatedAt automaticamente
+  timestamps: true,
+    versionKey: false// Cria createdAt e updatedAt automaticamente
 });
 
 // Índice TTL para expiração automática dos logs após 30 dias (2592000 segundos)

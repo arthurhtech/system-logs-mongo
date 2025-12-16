@@ -19,9 +19,6 @@ services:
     # se o container for parado/recriado.
     volumes:
       - mongo_data:/data/db
-      # Mapeamento para scripts de inicialização (como init-indexes.js)
-      # O MongoDB executa scripts .js colocados em /docker-entrypoint-initdb.d/
-      - ./scripts:/docker-entrypoint-initdb.d/
     # Reinicia se falhar, garantindo alta disponibilidade básica
     restart: unless-stopped
   
